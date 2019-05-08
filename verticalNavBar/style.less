@@ -1,0 +1,133 @@
+// Style for vertical nav bar
+.config-verticalNavMenu(@title-size, @title-mb, @title-mr, @item-pt, @item-pb, @item-height, @mb) {
+  // Config group title & group item size here
+  @group-title-size: @title-size; // height for group-title
+  @group-title-mb: @title-mb; // margin-top bottom for group-title
+  @group-title-mr: @title-mr; // margin-right for group-title
+  @group-item-pt: @item-pt; // padding-top for group-item
+  @group-item-pb: @item-pb; // padding-bottom for group-item
+  @group-item-height: @item-height; // height for group item
+  @group-mb: @mb; // margin-bottom for menu-group
+  @group-item-pl: (@group-title-size + @group-title-mr + 2); // padding-left for group-item
+  @group-item-tl-size: (@group-item-height + @group-item-pt + @group-item-pb); // height for timeline of group-item
+};
+.vertical-nav-menu {
+  // Config group title & group item size here
+  .config-verticalNavMenu(24px, 10px, 14px, 8px, 8px, 20px, 14px);
+  @title-color: #757575;
+  @item-color: #9e9e9e;
+  .timeline-mixin {
+    content: '';
+    width: 1px;
+    position: absolute;
+    border-style: solid;
+    border-color: @item-color;
+    border-width: 0 0 0 1px;
+  }
+  .menu-group {
+    //margin-bottom: 14px;
+    margin-bottom: @group-mb;
+    .group-title {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: @title-color;
+      //margin-bottom: 6px;
+      margin-bottom: @group-title-mb;
+      position: relative;
+      &:after {
+        .timeline-mixin();
+        height: @group-title-mb;
+        //height: 6px;
+        top: @group-title-size;
+        //top: 24px;
+        //left: 12px;
+        left: (@group-title-size / 2);
+      }
+      .title-index {
+        display: inline-block;
+        width: @group-title-size;
+        min-width: @group-title-size;
+        height: @group-title-size;
+        line-height: (@group-title-size - 2);
+        text-align: center;
+        border-radius: 50% !important;
+        border: 1px solid #eeeeee;
+        margin-right: 14px;
+      }
+      .title-name {
+        text-transform: uppercase;
+        word-break: break-all;
+      }
+    }
+    &:not(:first-child) .group-title:before {
+      .timeline-mixin();
+      height: @group-mb;
+      top: (0 - @group-mb);
+      left: (@group-title-size / 2);
+    }
+    .group-item {
+      padding: @group-item-pt 0 @group-item-pb @group-item-pl;
+      position: relative;
+      height: @group-item-height;
+      line-height: @group-item-height;
+      box-sizing: content-box;
+      &:before {
+        .timeline-mixin();
+        height: @group-item-tl-size;
+        top: 0;
+        left: (@group-title-size / 2);
+      }
+      &:hover {
+        background: #EEEEEE;
+      }
+      a {
+        color: @item-color;
+      }
+      .required {
+        color: red;
+      }
+      .fa {
+        float: right;
+        line-height: @group-item-height;
+        margin-right: 4px;
+      }
+      .item-success {
+        color: #02aac0;
+      }
+      .item-error {
+        color: #FF9800;
+      }
+    }
+    &:last-child .group-item:last-child{
+      &:before {
+        height: ( @group-item-tl-size / 2);
+      }
+      &:after {
+        content: '';
+        height: 8px;
+        width: 8px;
+        position: absolute;
+        border-radius: 50%;
+        background: @item-color;
+        top: ( @group-item-tl-size / 2 - 4px);
+        left: (@group-title-size / 2 - 4px);
+      }
+    }
+    .group-item.active {
+      a {
+        color: #02aac0;
+      }
+      &:after {
+        content: '';
+        height: 8px;
+        width: 8px;
+        position: absolute;
+        border-radius: 50%;
+        background:  #02aac0 !important;
+        top: ( @group-item-tl-size / 2 - 4px);
+        left: (@group-title-size / 2 - 4px);
+      }
+    }
+  }
+}
