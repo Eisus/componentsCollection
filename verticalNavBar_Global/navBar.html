@@ -1,0 +1,56 @@
+<div class="side-nav" ng-class="{'nav-collapse' : nav.isCollapsed}" ng-controller="HeaderCtrl">
+    <div class="page-logo">
+        <a ui-sref="homepage">
+            <div class="logo-img">
+                <div class="logo-img-cover"></div>
+            </div>
+            <h1 class="page-title">HyperMiner</h1>
+        </a>
+        <i class="fa fa-bars menu-btn" ng-click="nav.isCollapsed = !nav.isCollapsed"></i>
+    </div>
+    <ul class="nav-menu">
+        <uib-accordion close-others="true">
+            <li ng-repeat="navItem in navList track by $index" class="nav-item"
+                ng-class="{'nav-group': navItem.isMultiLevel, 'active-nav': currentNavName === navItem.navName}">
+                <!-- Single level nav item -->
+                <a ng-if="!navItem.isMultiLevel" ui-sref="//navItem.url//">
+                    <i class="fa nav-icon" ng-class="navItem.icon" aria-hidden="true" translate-attr="{title: navItem.translation}"></i>
+                    <span ng-bind=" navItem.translation| translate"></span>
+                </a>
+                <!-- Multi-level nav item, when nav bar is not collapsed -->
+                <div uib-accordion-group ng-if="navItem.isMultiLevel && !nav.isCollapsed" is-open="navItem.isOpen" class="panel-default">
+                    <uib-accordion-heading class="panel-title clearfix">
+                        <div class="title capitalize">
+                            <i class="fa nav-icon" ng-class="navItem.icon" translate-attr="{title: navItem.translation}" aria-hidden="true"></i>
+                            <span ng-bind=" navItem.translation| translate"></span>
+                            <i class="fa item-collapse" ng-class="navItem.isOpen ? 'fa-angle-down' : 'fa-angle-right'"> </i>
+                        </div>
+                    </uib-accordion-heading>
+                    <ul class="inner-list">
+                        <li ng-repeat="subNavItem in navItem.subLevel track by $index "
+                            ng-class="{'active-nav': currentNavName === subNavItem.navName}">
+                            <a ui-sref="//subNavItem.url//" ng-bind="subNavItem.translation | translate"></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Multi-level nav item, when nav bar is collapsed -->
+                <md-menu ng-if="navItem.isMultiLevel && nav.isCollapsed" md-position-mode="target-right target" class="help-menu">
+                    <md-button ng-click="$mdMenu.open($event)">
+                        <i class="fa nav-icon" ng-class="navItem.icon" translate-attr="{title: navItem.translation}" aria-hidden="true" ></i>
+                        <span ng-bind=" navItem.translation | translate"></span>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="subNavItem in navItem.subLevel track by $index">
+                            <md-button>
+                                <a class="dropdown-item" ui-sref="//subNavItem.url//" ng-bind=" subNavItem.translation | translate"></a>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </li>
+        </uib-accordion>
+    </ul>
+    <div class="footer">
+        <div class="page-footer-inner">&copy;2018 Lenovo. HyperMiner</div>
+    </div>
+</div>
